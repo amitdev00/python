@@ -1,0 +1,23 @@
+# abs(): Returns the absolute value of a number.
+# all(): Returns True if all items in an iterable object are true.
+# any(): Returns True if any item in an iterable object is true.
+# ascii(): Returns a readable version of an object. Replaces none-ascii characters with escape character.
+# bin(): Returns the binary version of a number.
+# bool(): Returns the boolean value of the specified object.
+# chr(): Returns a character from the specified Unicode code.
+# dict(): Returns a dictionary (Array).
+# float(): Returns a floating point number.
+# input(): Reads input from the user.
+# int(): Converts a value to an integer.
+# len(): Returns the number of items in an object.
+# list(): Converts an iterable into a list.
+# max(): Returns the largest item in an iterable or among arguments.
+# min(): Returns the smallest item in an iterable or among arguments.
+# pow(): Raises a number to a specified power.
+# print(): Outputs text or values to the console.
+# range(): Generates a sequence of numbers.
+# round(): Rounds a number to a specified number of decimal places.
+# str(): Converts a value into a string.
+# sum(): Returns the sum of items in an iterable.
+# tuple(): Converts an iterable into a tuple.
+# type(): Returns the type of an object or creates a new type.

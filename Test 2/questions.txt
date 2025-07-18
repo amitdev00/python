@@ -1,0 +1,47 @@
+# *variable & Datatype :- 
+# 1 - Create a program that takes a user's name and age and prints a greeting.done
+# 2 - Swap two numbers  without using a temporary variable. done
+# 3 - Given a list of integers, return a list with only unique elements.
+# 4 - Count how many times each character appears in a string done
+# 5 - Write a program to convert a tuple into a dictionary. done
+# 6 - Create a program to merge two dictionaries. done
+# 7 - Write a program to remove duplicate values from a list using sets. done
+# 8 - Convert a string to a list of characters and back to a string. done
+# 9 - Find the maximum and minimum values in a list. done
+# 10 - Write a function to check if a key exists in a dictionary. done
+
+# *Operators (arithmetic, logical, comparison, assignment) :- 
+# 1 - Write a calculator program that performs +, -, *, /, and %.done
+# 2 - Check if a number is divisible by both 3 and 5.done
+# 3 - Compare two numbers and print the larger one.done
+# 4 - Check if a given number is even and greater than 100.done
+# 5 - Use logical operators to verify if a student passed (marks > 33 and attendance > 75%).done
+# 6 - Use compound assignment (+=, -=) to update a score variable.
+# 7 - Write a program to swap values using arithmetic operators. done
+# 8 - Demonstrate short-circuiting with logical operators.done
+# 9 - Check if two strings are equal using comparison operators.done
+# 10 - Implement a simple grade calculator using assignment and comparison.done
+
+# *Conditional Statements (if, elif, else) :- 
+# 1 - Write a program to check if a number is positive, negative, or zero.done
+# 2 - Create a simple login system using if-else.done
+# 3 - Write a program to find the largest of three numbers.done
+# 4 - Check if a year is a leap year.
+# 5 - Write a temperature converter with options (Celsius <-> Fahrenheit).done
+# 6 - Print "odd" or "even" for a given number.done
+# 7 - Categorize age group based on user input (child, adult, senior).done
+# 8 - Check if a character is a vowel or consonant. done
+# Implement a traffic light simulator (Red, Yellow, Green).done
+# 9 - Check whether a number is prime using conditional statements.
+
+# *Loops (for, while) :- 
+# 1 - Print all even numbers from 1 to 100.done
+# 2 - Print the multiplication table of a given number.done
+# 3 - Calculate factorial of a number using a loop.done
+# 4 - Write a program to print Fibonacci series.
+# 5 - Find the sum of digits of a number.done
+# 6 - Reverse a given string using a loop.done
+# 7 - Write a program to count the number of vowels in a string.
+# 8 - Create a pattern (e.g., triangle of stars) using nested loops.
+# 9 - Check whether a number is an Armstrong number.
+# 10 - Use a while loop to find   the first 10 prime numbers.

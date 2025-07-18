@@ -1,0 +1,9 @@
+1- Write a  while loop to find the sum of digits of a number entered by the user.
+2- Count how many times a digit  occurs in a number.
+3- Check if a number is a palindrome using a while loop.
+4- Prompt the user to enter a password using while Keep prompting until the correct password is entered. Use break.
+5- Remove Vowels from a String.
+6- Simulate a maze navigation system where the user can input directions (N, S, E, W). Use a while loop to keep the user moving until they reach the exit.
+7- Write a while loop that asks the user for input. Detect if the same input is being given repeatedly (e.g., 3 times) and break to avoid infinite loop abuse.
+8- Use while to keep generating random passwords until one matches given conditions (e.g., 2 uppercase, 3 digits, 1 special character).
+9- Simulate a traffic light controller using while, changing states (Red → Green → Yellow → Red) after a time delay using time.sleep().
