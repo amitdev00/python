@@ -84,6 +84,39 @@ class ManageStudent:
         self.student_dict[id] = new_student
         print(f"\n{name} added successfully.\n")
 
+    def update_student(self):
+        id = int("Enter the Student ID: ")
+        if id in self.student_dict:
+            print("Current Details: ")
+            print(self.student_dict[id].show_details())
+            print("\nEnter new details (leave blank to keep current value): ")
+
+            name = input("Enter new name: ")
+            eng = int(input("Enter new english marks: "))
+            maths = int(input("Enter new maths marks: "))
+            physics = int(input("Enter new physics marks: "))
+            chemistry = int(input("Enter new chemistry marks: "))
+            computer = int(input("Enter new computer marks: "))
+
+            student = self.student_dict[id]
+            if name:
+                student.name = name
+            if eng:
+                student.eng = int(eng)
+            if maths:
+                student.maths = int(maths)
+            if physics:
+                student.physics = int(physics)
+            if chemistry:
+                student.chemistry = int(chemistry)
+            if computer:
+                student.computer = int(computer)
+
+            print("Student details updated successfully.\n")
+        else:
+            print("Student ID not found.\n")
+
+
     def display_all_students(self):
         print("\n---------------- All Students Report ----------------")
         if not self.student_dict:
@@ -103,39 +136,41 @@ while True:
     print("\n1. Add New Student")
     print("2. Show All Students")
     print("3. Exit")
-    option = input("Choose Option :-  (1/2/3): ")
+    option = input("Choose Option :-  (1/2/3/4): ")
 
     if option == "1":
         manager.add_new_student()
     elif option == "2":
-        manager.display_all_students()
+        manager.update_student()
     elif option == "3":
+        manager.display_all_students()
+    elif option == "4":
         print("Exit")
         break
     else:
         print("Invalid choice. Please enter 1, 2, or 3.")
     
    
-ID = int(input("Enter the Student ID :- "))
-name = str(input("Enter your name :- "))
-english_marks = int(input("Enter marks in english :- "))
-math_marks = int(input("Enter marks in maths :- "))
-physics_marks = int(input("Enter marks in physics :- "))
-chemistry_marks = int(input("Enter marks in chemistry :- "))
-computer_marks = int(input("Enter marks in computer science :- "))
+# ID = int(input("Enter the Student ID :- "))
+# name = str(input("Enter your name :- "))
+# english_marks = int(input("Enter marks in english :- "))
+# math_marks = int(input("Enter marks in maths :- "))
+# physics_marks = int(input("Enter marks in physics :- "))
+# chemistry_marks = int(input("Enter marks in chemistry :- "))
+# computer_marks = int(input("Enter marks in computer science :- "))
 
-print("-------------------Student Report-------------------")
-obj_student = Student(ID, name)
-print(obj_student.show_details())
+# print("-------------------Student Report-------------------")
+# obj_student = Student(ID, name)
+# print(obj_student.show_details())
 
-obj_grade = Grade(ID, name, english_marks, math_marks, physics_marks, chemistry_marks, computer_marks)
-print(f"{obj_grade.show_details()}")
-print(f"Marks Obtained :- {obj_grade.calculate_total_marks()} / 500")
-print(f"Percentage Obtained :- {obj_grade.calculate_percentage()}%")
-print(f"Grade :- {obj_grade.calculate_grade()}")
+# obj_grade = Grade(ID, name, english_marks, math_marks, physics_marks, chemistry_marks, computer_marks)
+# print(f"{obj_grade.show_details()}")
+# print(f"Marks Obtained :- {obj_grade.calculate_total_marks()} / 500")
+# print(f"Percentage Obtained :- {obj_grade.calculate_percentage()}%")
+# print(f"Grade :- {obj_grade.calculate_grade()}")
 
 obj_manage_student = ManageStudent()
-obj_manage_student.student_dict[ID] = obj_grade
+# obj_manage_student.student_dict[ID] = obj_grade
 obj_manage_student.display_all_students()
 
 
