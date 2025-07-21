@@ -13,11 +13,11 @@ class Student:
         self.name = name
         
     def show_details(self):
-        return f"   {self.id}             {self.name}       "
+        return f"Student Id :- {self.id}\nName :- {self.name}"
     
 class Marks(Student):
-    def __init__(self,id, name, eng, maths, physics, chemistry, computer ):
-        super().__init__(self, id, name)
+    def __init__(self,id, name, eng, maths, physics, chemistry, computer):
+        super().__init__(id, name)
         self.eng = eng
         self.maths = maths
         self.physics = physics
@@ -25,11 +25,14 @@ class Marks(Student):
         self.computer = computer
 
     def show_details(self):
-        return f"{self.eng}\nMaths :- {self.maths}\nPhysics :- {self.physics}\nChemistry :- {self.chemistry}\nComputer Science :- {self.computer}"
+        return f"ID :- {self.id}\nName :- {self.name}\nEnglish :- {self.eng}\nMaths :- {self.maths}\nPhysics :- {self.physics}\nChemistry :- {self.chemistry}\nComputer Science :- {self.computer}"
 
 class Grade(Marks):
-    def __init__(self, eng, maths, physics, chemistry, computer):
-        super().__init__( eng, maths, physics, chemistry, computer)
+    def __init__(self,id, name, eng, maths, physics, chemistry, computer):
+        super().__init__(id, name, eng, maths, physics, chemistry, computer)
+
+    # def show_details(self):
+    #     return f"Student ID :- {self.id}\nName :- {self.name}\nEnglish :- {self.eng}\nMaths :- {self.maths}\nPhysics :- {self.physics}\nChemistry :- {self.chemistry}\nComputer Science :- {self.computer}"
 
     def calculate_total_marks(self):
         return self.eng + self.maths + self.physics + self.chemistry + self.computer
@@ -37,34 +40,81 @@ class Grade(Marks):
     def calculate_percentage(self):
         return (self.calculate_total_marks() / 500) * 100
     
-    def caluculate_grade(self):
-        while (self.eng and self.maths and self.physics and self.chemistry and self.computer) < 33:
+    def calculate_grade(self):
+        if any(mark < 33 for mark in [self.eng, self.maths, self.physics, self.chemistry, self.computer]):
             return "Marks should be above 33 in every subject.\nStudent failed."
+                
+        if self.calculate_percentage() > 97:
+            return "A++"  
+        elif 97 > self.calculate_percentage() >= 95:
+            return "A+"
+        elif 95 > self.calculate_percentage() > 90:
+            return "A"
+        elif 90 > self.calculate_percentage() > 85:
+            return "B++"
+        elif 85 > self.calculate_percentage() > 80:
+            return "B+"
+        elif 80 > self.calculate_percentage() > 75:
+            return "B"
+        elif 75 > self.calculate_percentage() > 70:
+            return "C++"
+        elif 70 > self.calculate_percentage() > 65:
+            return "C+"
+        elif 65 > self.calculate_percentage() > 60:
+            return "C"
+        elif 60 > self.calculate_percentage() > 35:
+            return "D"
         else:
-            while 101 < (self.eng and self.maths and self.physics and self.chemistry and self.computer) >= 33:
-                if self.calculate_percentage() > 95:
-                    return "A++"  
-                elif 95 > self.calculate_percentage() >= 90:
-                    return "A+"
-                elif 90 > self.calculate_percentage() > 85:
-                    return "A"
-                elif 85 > self.calculate_percentage() > 80:
-                    return "B++"
-                elif 85 > self.calculate_percentage() > 80:
-                    return "B+"
-                elif 80 > self.calculate_percentage() > 75:
-                    return "B"
-                elif 75 > self.calculate_percentage() > 70:
-                    return "C++"
-                elif 70 > self.calculate_percentage() > 65:
-                    return "C+"
-                elif 65 > self.calculate_percentage() > 60:
-                    return "C"
-                elif 60 > self.calculate_percentage() > 35:
-                    return "D"
-                else:
-                    return "Student Failed."
-   
+            return "Student Failed."
+                
+class ManageStudent:
+    def __init__(self):
+        self.student_dict = {}
+
+    def add_new_student(self):
+        id = int(input("Enter Student ID :- "))
+        name = input("Enter Student Name :- ")
+        eng = int(input("Enter marks in English :- "))
+        maths = int(input("Enter marks in Maths :- "))
+        physics = int(input("Enter marks in Physics :- "))
+        chemistry = int(input("Enter marks in Chemistry :- "))
+        computer = int(input("Enter marks in Computer :- "))
+
+        new_student = Grade(id, name, eng, maths, physics, chemistry, computer)
+        self.student_dict[id] = new_student
+        print(f"\n{name} added successfully.\n")
+
+    def display_all_students(self):
+        print("\n---------------- All Students Report ----------------")
+        if not self.student_dict:
+            print("No students found.")
+            return
+        for student in self.student_dict.values():
+            print(student.show_details())
+            print(f"Total Marks: {student.calculate_total_marks()} / 500")
+            print(f"Percentage: {student.calculate_percentage():.2f}%")
+            print(f"Grade: {student.calculate_grade()}")
+            print("--------------------------------------------------")
+            
+
+manager = ManageStudent()
+
+while True:
+    print("\n1. Add New Student")
+    print("2. Show All Students")
+    print("3. Exit")
+    option = input("Choose Option :-  (1/2/3): ")
+
+    if option == "1":
+        manager.add_new_student()
+    elif option == "2":
+        manager.display_all_students()
+    elif option == "3":
+        print("Exit")
+        break
+    else:
+        print("Invalid choice. Please enter 1, 2, or 3.")
+    
    
 ID = int(input("Enter the Student ID :- "))
 name = str(input("Enter your name :- "))
@@ -75,14 +125,17 @@ chemistry_marks = int(input("Enter marks in chemistry :- "))
 computer_marks = int(input("Enter marks in computer science :- "))
 
 print("-------------------Student Report-------------------")
-print("Student ID       Name   ")
 obj_student = Student(ID, name)
 print(obj_student.show_details())
 
-obj_marks = Marks(english_marks, math_marks, physics_marks, chemistry_marks, computer_marks)
-print(obj_marks.show_details())
-
-obj_grade = Grade(english_marks, math_marks, physics_marks, chemistry_marks, computer_marks)
+obj_grade = Grade(ID, name, english_marks, math_marks, physics_marks, chemistry_marks, computer_marks)
+print(f"{obj_grade.show_details()}")
 print(f"Marks Obtained :- {obj_grade.calculate_total_marks()} / 500")
 print(f"Percentage Obtained :- {obj_grade.calculate_percentage()}%")
-print(f"Grade :- {obj_grade.caluculate_grade()}")
+print(f"Grade :- {obj_grade.calculate_grade()}")
+
+obj_manage_student = ManageStudent()
+obj_manage_student.student_dict[ID] = obj_grade
+obj_manage_student.display_all_students()
+
+
