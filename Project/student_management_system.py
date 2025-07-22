@@ -3,6 +3,7 @@ class Student:
         self.id = id
         self.name = name
 
+
 class Marks(Student):
     def __init__(self, id, name, eng, maths, physics, chemistry, computer):
         super().__init__(id, name)
@@ -14,68 +15,70 @@ class Marks(Student):
 
     def calculate_total_marks(self):
         return self.eng + self.maths + self.physics + self.chemistry + self.computer
-    
+
     def calculate_percentage(self):
         return (self.calculate_total_marks() / 500) * 100
-    
+
+
 class Grade(Marks):
     def __init__(self, id, name, eng, maths, physics, chemistry, computer):
         super().__init__(id, name, eng, maths, physics, chemistry, computer)
 
     def calculate_grade(self):
         if any(mark < 33 for mark in [self.eng, self.maths, self.physics, self.chemistry, self.computer]):
-            return ("Marks should be above 33 in every subject"
-                    "Student Failed.")
-        
+            return "Marks should be above 33 in every subject. Student Failed."
+
         percentage = self.calculate_percentage()
 
         while True:
-            if percentage >=93: 
-                return ("A")
-            elif percentage  >=90 and percentage <= 93:
-                return ("-A")
+            if percentage >= 93:
+                return "A"
+            elif percentage >= 90 and percentage <= 93:
+                return "-A"
             elif percentage >= 87 and percentage <= 90:
-                return("B+")
-            elif percentage >=83 and percentage >= 87:
-                return ("B")
+                return "B+"
+            elif percentage >= 83 and percentage >= 87:
+                return "B"
             elif percentage >= 80 and percentage >= 83:
-                return ("B-")
+                return "B-"
             elif percentage >= 77 and percentage >= 80:
-                return ("C+")
+                return "C+"
             elif percentage >= 73 and percentage >= 77:
-                return ("C")
+                return "C"
             elif percentage >= 70 and percentage >= 73:
-                return ("C-")
+                return "C-"
             elif percentage >= 67 and percentage >= 70:
-                return  ("D+")
+                return "D+"
             elif percentage >= 63 and percentage >= 67:
-                return ("D")
+                return "D"
             elif percentage >= 60 and percentage >= 63:
-                return ("D-")
+                return "D-"
             else:
-                return ("F")
-            
-class ManageStudent(Grade):
-    def __init__(self, id, name, eng, maths, physics, chemistry, computer):
-        super().__init__(id, name, eng, maths, physics, chemistry, computer)
+                return "F"
+
+
+class ManageStudent:
+    def __init__(self):
+        self.student_dict = {}
 
     def add_student(self):
-        student_dict = {}
-
         id = int(input("Enter Student ID: "))
-        if self.id in student_dict:
-            return f"Student ID already exists."
+        if id in self.student_dict:
+            print("Student ID already exists.")
+            return
 
-        name = str(input("Enter name of the student: "))
-        eng = int(input("Enter marks in english: "))
-        maths = int(input("Enter marks in mathematics: "))
-        physics = int(input("Enter marks in physics: "))
-        chemistry = int(input("Enter marks in chemistry: "))
-        computer = int(input("Enter marks in computer: "))
+        name = input("Enter name of the student: ")
+        eng = int(input("Enter marks in English: "))
+        maths = int(input("Enter marks in Mathematics: "))
+        physics = int(input("Enter marks in Physics: "))
+        chemistry = int(input("Enter marks in Chemistry: "))
+        computer = int(input("Enter marks in Computer: "))
 
-        student_info = Grade(id, name, eng, maths, physics, chemistry, computer)
+        student_info = Grade(id, name, eng, maths,
+                             physics, chemistry, computer)
         self.student_dict[id] = student_info
 
+        print(f"{name} added successfully.\n")
 
     def update_student(self):
         id = int(input("Enter the Student ID whose data you want to update: "))
@@ -99,42 +102,55 @@ class ManageStudent(Grade):
         else:
             new_eng = int(new_eng)
 
-        new_maths = input(f"Enter new Mathematics marks (Current: {student.maths}): ")
+        new_maths = input(
+            f"Enter new Mathematics marks (Current: {student.maths}): ")
         if new_maths.strip() == "":
             new_maths = student.maths
         else:
             new_maths = int(new_maths)
 
-        new_physics = input(f"Enter new Physics marks (Current: {student.physics}): ")
+        new_physics = input(
+            f"Enter new Physics marks (Current: {student.physics}): ")
         if new_physics.strip() == "":
             new_physics = student.physics
         else:
             new_physics = int(new_physics)
 
-        new_chemistry = input(f"Enter new Chemistry marks (Current: {student.chemistry}): ")
+        new_chemistry = input(
+            f"Enter new Chemistry marks (Current: {student.chemistry}): ")
         if new_chemistry.strip() == "":
             new_chemistry = student.chemistry
         else:
             new_chemistry = int(new_chemistry)
 
-        new_computer = input(f"Enter new Computer marks (Current: {student.computer}): ")
+        new_computer = input(
+            f"Enter new Computer marks (Current: {student.computer}): ")
         if new_computer.strip() == "":
             new_computer = student.computer
         else:
             new_computer = int(new_computer)
 
-        updated_student = Grade(id, new_name, new_eng, new_maths, new_physics, new_chemistry, new_computer)
+        updated_student = Grade(
+            id, new_name, new_eng, new_maths, new_physics, new_chemistry, new_computer)
 
         self.student_dict[id] = updated_student
 
-        print("\nStudent record has been successfully updated!\n")
-                
+        print("Student record has been successfully updated.\n")
+
+    def delete_student(self):
+        id = int(input("Enter the Student ID you want to delete: "))
+        if id in self.student_dict:
+            del self.student_dict[id]
+            print("Student deleted successfully.\n")
+        else:
+            print("Student ID not found.\n")
+
     def show_all_students(self):
         if not self.student_dict:
-            print("⚠ No student records found.\n")
+            print("No student records found.\n")
             return
 
-        print("\n📋 All Student Records:\n")
+        print("\nAll Student Records:\n")
         print("-" * 50)
 
         for student_id, student in self.student_dict.items():
@@ -146,10 +162,35 @@ class ManageStudent(Grade):
             print(f"Chemistry    : {student.chemistry}")
             print(f"Computer     : {student.computer}")
             print(f"Percentage   : {student.calculate_percentage():.2f}%")
+            print(f"Grade        : {student.calculate_grade()}")
             print("-" * 50)
 
 
-manager = ManageStudent(id, name, eng, maths, physics, chemistry, computer)
-manager.add_student()
-manager.add_student()
-manager.show_all_students()
+def menu():
+    manager = ManageStudent()
+    while True:
+        print("\nStudent Management Menu")
+        print("1. Add New Student")
+        print("2. Update Existing Student")
+        print("3. Delete Student")
+        print("4. Display All Students")
+        print("5. Exit")
+
+        choice = input("Enter your choice (1-5): ")
+
+        if choice == '1':
+            manager.add_student()
+        elif choice == '2':
+            manager.update_student()
+        elif choice == '3':
+            manager.delete_student()
+        elif choice == '4':
+            manager.show_all_students()
+        elif choice == '5':
+            print("Exit.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+menu()
