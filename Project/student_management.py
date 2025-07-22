@@ -149,7 +149,7 @@ class ManageStudent(Grade):
             print("-" * 50)
 
 
-manager = ManageStudent(id, name, eng, maths, physics, chemistry, computer)
+manager = ManageStudent(id)
 manager.add_student()
 manager.add_student()
 manager.show_all_students()
