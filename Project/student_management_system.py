@@ -63,9 +63,9 @@ class ManageStudent:
 
     def add_student(self):
         id = int(input("Enter Student ID: "))
+
         if id in self.student_dict:
-            print("Student ID already exists.")
-            return
+            return ("Student ID already exists.")
 
         name = input("Enter name of the student: ")
         eng = int(input("Enter marks in English: "))
@@ -74,8 +74,7 @@ class ManageStudent:
         chemistry = int(input("Enter marks in Chemistry: "))
         computer = int(input("Enter marks in Computer: "))
 
-        student_info = Grade(id, name, eng, maths,
-                             physics, chemistry, computer)
+        student_info = Grade(id, name, eng, maths, physics, chemistry, computer)
         self.student_dict[id] = student_info
 
         print(f"{name} added successfully.\n")
@@ -84,8 +83,8 @@ class ManageStudent:
         id = int(input("Enter the Student ID whose data you want to update: "))
 
         if id not in self.student_dict:
-            print("Student ID not found. Please add the student first or check the ID.\n")
-            return
+            return ("Student ID not found. Please add the student first or check the ID.\n")
+            
 
         student = self.student_dict[id]
 
@@ -93,49 +92,47 @@ class ManageStudent:
         print("If you want to keep a value unchanged, just press Enter.\n")
 
         new_name = input(f"Enter new name (Current: {student.name}): ")
-        if new_name.strip() == "":
+        if new_name == "":
             new_name = student.name
 
-        new_eng = input(f"Enter new English marks (Current: {student.eng}): ")
-        if new_eng.strip() == "":
+        new_eng = input(f"Previous marks in English: {student.eng}\nEnter new English marks: ")
+        if new_eng == "":
             new_eng = student.eng
         else:
             new_eng = int(new_eng)
 
-        new_maths = input(
-            f"Enter new Mathematics marks (Current: {student.maths}): ")
+        new_maths = input(f"Previous marks in Mathematics: {student.maths}\nEnter new Mathematics marks: ")
         if new_maths.strip() == "":
             new_maths = student.maths
         else:
             new_maths = int(new_maths)
 
         new_physics = input(
-            f"Enter new Physics marks (Current: {student.physics}): ")
-        if new_physics.strip() == "":
+            f"Previous marks in Physics: {student.physics}\nEnter new Physics marks: ")
+        if new_physics == "":
             new_physics = student.physics
         else:
             new_physics = int(new_physics)
 
         new_chemistry = input(
-            f"Enter new Chemistry marks (Current: {student.chemistry}): ")
-        if new_chemistry.strip() == "":
+            f"Previous marks in Chemistry: {student.chemistry}\nEnter new Chemistry marks: ")
+        if new_chemistry == "":
             new_chemistry = student.chemistry
         else:
             new_chemistry = int(new_chemistry)
 
         new_computer = input(
-            f"Enter new Computer marks (Current: {student.computer}): ")
-        if new_computer.strip() == "":
+            f"Previous marks in Computer: {student.computer}\nEnter new Computer marks: ")
+        if new_computer == "":
             new_computer = student.computer
         else:
             new_computer = int(new_computer)
 
-        updated_student = Grade(
-            id, new_name, new_eng, new_maths, new_physics, new_chemistry, new_computer)
+        updated_student = Grade(id, new_name, new_eng, new_maths, new_physics, new_chemistry, new_computer)
 
         self.student_dict[id] = updated_student
 
-        print("Student record has been successfully updated.\n")
+        print(f"{new_name} record has been successfully updated.\n")
 
     def delete_student(self):
         id = int(input("Enter the Student ID you want to delete: "))
@@ -147,8 +144,8 @@ class ManageStudent:
 
     def show_all_students(self):
         if not self.student_dict:
-            print("No student records found.\n")
-            return
+            return ("No student records found.\n")
+            
 
         print("\nAll Student Records:\n")
         print("-" * 50)
@@ -161,36 +158,37 @@ class ManageStudent:
             print(f"Physics      : {student.physics}")
             print(f"Chemistry    : {student.chemistry}")
             print(f"Computer     : {student.computer}")
+            print(f"Total Marks  : {student.calculate_total_marks()}")
             print(f"Percentage   : {student.calculate_percentage():.2f}%")
             print(f"Grade        : {student.calculate_grade()}")
             print("-" * 50)
 
 
-def menu():
+def show_options():
     manager = ManageStudent()
     while True:
-        print("\nStudent Management Menu")
+        print("\nStudent Management System")
         print("1. Add New Student")
         print("2. Update Existing Student")
         print("3. Delete Student")
         print("4. Display All Students")
         print("5. Exit")
 
-        choice = input("Enter your choice (1-5): ")
+        option = input("Enter your choice (1-5): ")
 
-        if choice == '1':
+        if option == '1':
             manager.add_student()
-        elif choice == '2':
+        elif option == '2':
             manager.update_student()
-        elif choice == '3':
+        elif option == '3':
             manager.delete_student()
-        elif choice == '4':
+        elif option == '4':
             manager.show_all_students()
-        elif choice == '5':
+        elif option == '5':
             print("Exit.")
             break
         else:
             print("Invalid choice. Please try again.")
 
 
-menu()
+show_options()
