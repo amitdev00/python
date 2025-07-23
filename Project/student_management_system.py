@@ -91,7 +91,7 @@ class ManageStudent:
         print(f"\nYou are updating details for student: {student.name}")
         print("If you want to keep a value unchanged, just press Enter.\n")
 
-        new_name = input(f"Enter new name (Current: {student.name}): ")
+        new_name = input(f"Previous name of the student: {student.name}\nEnter new name: ")
         if new_name == "":
             new_name = student.name
 
