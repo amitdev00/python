@@ -144,7 +144,7 @@ class ManageStudent:
 
     def show_all_students(self):
         if not self.student_dict:
-            return ("No student records found.\n")
+            return("No student records found.\n")
             
 
         print("\nAll Student Records:\n")
