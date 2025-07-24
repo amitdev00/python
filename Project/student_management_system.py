@@ -150,7 +150,7 @@ class ManageStudent:
         print("\nAll Student Records:\n")
         print("-" * 50)
 
-        for student_id, student in self.student_dict.items():
+        for student in self.student_dict.items():
             print(f"Student ID   : {student.id}")
             print(f"Name         : {student.name}")
             print(f"English      : {student.eng}")
