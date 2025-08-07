@@ -1,24 +1,13 @@
 import streamlit as st
-import sqlite3
-import random
-
-conn = sqlite3.connect("bank.db", check_same_thread=False)
-cursor = conn.cursor()
-
-def create_table():
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-        account_number TEXT PRIMARY KEY,
-        name TEXT,
-        dob TEXT,
-        email TEXT,
-        phone TEXT,
-        address TEXT,
-        account_type TEXT,
-        balance REAL,
-        branch TEXT,
-        pin TEXT
-    )''')
-    conn.commit()
+from utils import (
+    create_table,
+    insert_user,
+    get_pin,
+    get_account_info,
+    update_balance,
+    update_pin,
+    generate_account_number
+)
 
 create_table()
 
@@ -42,26 +31,22 @@ def signup():
         if pin != confirm_pin:
             st.error("PINs do not match.")
             return
-        acc_no = str(random.randint(10000000, 99999999))
-        try:
-            cursor.execute('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (
-                acc_no, name, dob, email, phone, address, account_type, initial_deposit, branch, pin
-            ))
-            conn.commit()
+        acc_no = generate_account_number()
+        user_data = (acc_no, name, dob, email, phone, address, account_type, initial_deposit, branch, pin)
+        if insert_user(user_data):
             st.success(f"Account created successfully! Your Account Number is {acc_no}")
-        except sqlite3.IntegrityError:
+        else:
             st.error("Account number already exists. Try again.")
 
 def login():
     st.header("Login to Your Account")
     acc_no = st.text_input("Account Number", key="login_acc_no")
     pin = st.text_input("PIN", type="password", key="login_pin")
+
     if st.button("Login"):
         acc_no_clean = acc_no.strip()
         pin_clean = pin.strip()
-
-        cursor.execute('SELECT pin FROM users WHERE account_number = ?', (acc_no_clean,))
-        result = cursor.fetchone()
+        result = get_pin(acc_no_clean)
 
         if result:
             actual_pin = str(result[0]).strip()
@@ -72,16 +57,6 @@ def login():
                 st.error("Invalid PIN.")
         else:
             st.error("Invalid account number.")
-
-
-def get_account_info(acc_no):
-    cursor.execute('SELECT account_number, name, dob, email, phone, address, account_type, balance, branch FROM users WHERE account_number = ?', (acc_no,))
-    row = cursor.fetchone()
-    if row:
-        keys = ['account_number', 'name', 'dob', 'email', 'phone', 'address', 'account_type', 'balance', 'branch']
-        return dict(zip(keys, row))
-    else:
-        return {}
 
 def show_dashboard(acc_no):
     info = get_account_info(acc_no)
@@ -113,8 +88,7 @@ def show_dashboard(acc_no):
         deposit = st.number_input("Deposit Amount", min_value=0.0, key="deposit_amt")
         if st.button("Deposit"):
             if deposit > 0:
-                cursor.execute('UPDATE users SET balance = balance + ? WHERE account_number = ?', (deposit, acc_no))
-                conn.commit()
+                update_balance(acc_no, deposit, is_deposit=True)
                 st.success(f"Deposited ₹{deposit:.2f} successfully.")
                 st.rerun()
 
@@ -124,8 +98,7 @@ def show_dashboard(acc_no):
             if withdraw > info['balance']:
                 st.error("Insufficient balance.")
             elif withdraw > 0:
-                cursor.execute('UPDATE users SET balance = balance - ? WHERE account_number = ?', (withdraw, acc_no))
-                conn.commit()
+                update_balance(acc_no, withdraw, is_deposit=False)
                 st.success(f"Withdrew ₹{withdraw:.2f} successfully.")
                 st.rerun()
 
@@ -140,8 +113,7 @@ def show_dashboard(acc_no):
         confirm_pin = st.text_input("Confirm New PIN", type="password")
 
         if st.button("Change PIN"):
-            cursor.execute('SELECT pin FROM users WHERE account_number = ?', (acc_no,))
-            actual_pin = cursor.fetchone()[0]
+            actual_pin = get_pin(acc_no)[0]
             if old_pin != actual_pin:
                 st.error("Old PIN incorrect.")
             elif new_pin != confirm_pin:
@@ -149,8 +121,7 @@ def show_dashboard(acc_no):
             elif len(new_pin) != 4 or not new_pin.isdigit():
                 st.error("New PIN must be exactly 4 digits.")
             else:
-                cursor.execute('UPDATE users SET pin = ? WHERE account_number = ?', (new_pin, acc_no))
-                conn.commit()
+                update_pin(acc_no, new_pin)
                 st.success("PIN changed successfully.")
                 st.rerun()
 
