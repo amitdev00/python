@@ -1,13 +1,6 @@
 import streamlit as st
-from utils import (
-    create_table,
-    insert_user,
-    get_pin,
-    get_account_info,
-    update_balance,
-    update_pin,
-    generate_account_number
-)
+from utils import (create_table, insert_user, get_pin, get_account_info,
+                    update_balance, update_pin, generate_account_number)
 
 create_table()
 
@@ -32,11 +25,14 @@ def signup():
             st.error("PINs do not match.")
             return
         acc_no = generate_account_number()
-        user_data = (acc_no, name, dob, email, phone, address, account_type, initial_deposit, branch, pin)
+        user_data = (acc_no, name, dob, email, phone, address,
+                         account_type, initial_deposit, branch, pin)
         if insert_user(user_data):
-            st.success(f"Account created successfully! Your Account Number is {acc_no}")
+            st.success(
+                f"Account created successfully! Your Account Number is {acc_no}")
         else:
             st.error("Account number already exists. Try again.")
+
 
 def login():
     st.header("Login to Your Account")
@@ -58,7 +54,8 @@ def login():
         else:
             st.error("Invalid account number.")
 
-def show_dashboard(acc_no):
+
+def show_accountInfo(acc_no):
     info = get_account_info(acc_no)
     if not info:
         st.error("Account not found.")
@@ -66,26 +63,28 @@ def show_dashboard(acc_no):
 
     st.header("Your Account Dashboard")
 
-    tab1, tab2, tab3 = st.tabs(["Profile Details", "Transactions", "Change PIN"])
+    tab1, tab2 = st.tabs(
+        ["Profile Details", "Change PIN"])
 
     with tab1:
         st.subheader("Personal Information")
-        col_a, col_b, col_c = st.columns(3)
-        with col_a:
-            st.markdown(f"**Account Number:** {info['account_number']}")
-            st.markdown(f"**Name:** {info['name']}")
-            st.markdown(f"**Date of Birth:** {info['dob']}")
-        with col_b:
-            st.markdown(f"**Email:** {info['email']}")
-            st.markdown(f"**Phone:** {info['phone']}")
-            st.markdown(f"**Address:** {info['address']}")
-        with col_c:
-            st.markdown(f"**Account Type:** {info['account_type']}")
-            st.markdown(f"**Balance:** ₹{info['balance']:.2f}")
-            st.markdown(f"**Branch:** {info['branch']}")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown(f"Account Number: {info['account_number']}")
+            st.markdown(f"Name: {info['name']}")
+            st.markdown(f"Date of Birth: {info['dob']}")
+        with col2:
+            st.markdown(f"Email: {info['email']}")
+            st.markdown(f"Phone: {info['phone']}")
+            st.markdown(f"Address: {info['address']}")
+        with col3:
+            st.markdown(f"Account Type: {info['account_type']}")
+            st.markdown(f"Balance: ₹{info['balance']:.2f}")
+            st.markdown(f"Branch: {info['branch']}")
 
         st.subheader("Deposit Money")
-        deposit = st.number_input("Deposit Amount", min_value=0.0, key="deposit_amt")
+        deposit = st.number_input(
+            "Deposit Amount", min_value=0.0, key="deposit_amt")
         if st.button("Deposit"):
             if deposit > 0:
                 update_balance(acc_no, deposit, is_deposit=True)
@@ -93,7 +92,8 @@ def show_dashboard(acc_no):
                 st.rerun()
 
         st.subheader("Withdraw Money")
-        withdraw = st.number_input("Withdraw Amount", min_value=0.0, key="withdraw_amt")
+        withdraw = st.number_input(
+            "Withdraw Amount", min_value=0.0, key="withdraw_amt")
         if st.button("Withdraw"):
             if withdraw > info['balance']:
                 st.error("Insufficient balance.")
@@ -103,10 +103,6 @@ def show_dashboard(acc_no):
                 st.rerun()
 
     with tab2:
-        st.subheader("Transactions")
-        st.info("No transaction history implemented yet.")
-
-    with tab3:
         st.subheader("Change PIN")
         old_pin = st.text_input("Old PIN", type="password")
         new_pin = st.text_input("New PIN (4 digits)", type="password")
@@ -125,11 +121,13 @@ def show_dashboard(acc_no):
                 st.success("PIN changed successfully.")
                 st.rerun()
 
+
 def logout():
     if st.button("Logout"):
         st.session_state['logged_in'] = False
         st.session_state['acc_no'] = None
         st.rerun()
+
 
 def main():
     st.set_page_config(layout="wide")
@@ -141,18 +139,19 @@ def main():
         st.session_state['acc_no'] = None
 
     if not st.session_state['logged_in']:
-        col1, col2 = st.columns(2)
-        with col1:
+        col4, col5 = st.columns(2)
+        with col4:
             with st.expander("Create New Account"):
                 signup()
-        with col2:
+        with col5:
             with st.expander("Login to Your Account"):
                 login()
     else:
         st.success(f"Logged in as Account No: {st.session_state['acc_no']}")
         logout()
         st.markdown("---")
-        show_dashboard(st.session_state['acc_no'])
+        show_accountInfo(st.session_state['acc_no'])
+
 
 if __name__ == "__main__":
     main()

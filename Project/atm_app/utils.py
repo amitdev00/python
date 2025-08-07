@@ -5,27 +5,20 @@ conn = sqlite3.connect("bank.db", check_same_thread=False)
 cursor = conn.cursor()
 
 def create_table():
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-        account_number TEXT PRIMARY KEY,
-        name TEXT,
-        dob TEXT,
-        email TEXT,
-        phone TEXT,
-        address TEXT,
-        account_type TEXT,
-        balance REAL,
-        branch TEXT,
-        pin TEXT
-    )''')
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users ( account_number TEXT PRIMARY KEY, name TEXT, dob TEXT,
+        email TEXT, phone TEXT,  address TEXT, account_type TEXT, balance REAL,
+        branch TEXT, pin TEXT)""")
     conn.commit()
 
 def insert_user(data):
-    try:
+    cursor.execute('SELECT 1 FROM users WHERE account_number = ?', (data[0],))
+    if cursor.fetchone():
+        return False
+    else:
         cursor.execute('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', data)
         conn.commit()
         return True
-    except sqlite3.IntegrityError:
-        return False
+
 
 def get_pin(account_number):
     cursor.execute('SELECT pin FROM users WHERE account_number = ?', (account_number,))
@@ -35,10 +28,20 @@ def get_account_info(acc_no):
     cursor.execute('SELECT account_number, name, dob, email, phone, address, account_type, balance, branch FROM users WHERE account_number = ?', (acc_no,))
     row = cursor.fetchone()
     if row:
-        keys = ['account_number', 'name', 'dob', 'email', 'phone', 'address', 'account_type', 'balance', 'branch']
-        return dict(zip(keys, row))
+        return {
+            'account_number': row[0],
+            'name': row[1],
+            'dob': row[2],
+            'email': row[3],
+            'phone': row[4],
+            'address': row[5],
+            'account_type': row[6],
+            'balance': row[7],
+            'branch': row[8]
+        }
     else:
         return {}
+
 
 def update_balance(acc_no, amount, is_deposit=True):
     if is_deposit:
