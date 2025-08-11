@@ -1,0 +1,18 @@
+Built-in Python Exceptions
+Here is the list of default Python exceptions with descriptions:
+
+1. AssertionError: raised when the assert statement fails.
+2. EOFError: raised when the input() function meets the end-of-file condition.
+3. AttributeError: raised when the attribute assignment or reference fails.
+4. TabError: raised when the indentations consist of inconsistent tabs or spaces. 
+5. ImportError: raised when importing the module fails. 
+6. IndexError: occurs when the index of a sequence is out of range
+7. KeyboardInterrupt: raised when the user inputs interrupt keys (Ctrl + C or Delete).
+8. RuntimeError: occurs when an error does not fall into any category. 
+9. NameError: raised when a variable is not found in the local or global scope. 
+10. MemoryError: raised when programs run out of memory. 
+11. ValueError: occurs when the operation or function receives an argument with the right type but the wrong value. 
+12. ZeroDivisionError: raised when you divide a value or variable with zero. 
+13. SyntaxError: raised by the parser when the Python syntax is wrong. 
+14. IndentationError: occurs when there is a wrong indentation.
+15. SystemError: raised when the interpreter detects an internal error.
